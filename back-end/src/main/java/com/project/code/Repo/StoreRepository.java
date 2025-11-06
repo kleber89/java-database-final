@@ -11,8 +11,7 @@ import java.util.List;
 @Repository
 public interface StoreRepository extends JpaRepository<Store, Long> {
 
-    // Convenience method: find by id (returns entity directly)
-    Store findById(Long id);
+    // JpaRepository already provides findById returning Optional<Store>
 
     // Find stores whose name contains the given substring (case-insensitive)
     @Query("SELECT s FROM Store s WHERE LOWER(s.name) LIKE LOWER(CONCAT('%', :pname, '%'))")

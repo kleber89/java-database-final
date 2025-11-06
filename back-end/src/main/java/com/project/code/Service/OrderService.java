@@ -2,7 +2,6 @@ package com.project.code.Service;
 
 import com.project.code.Model.*;
 import com.project.code.Repo.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +18,6 @@ public class OrderService {
     private final OrderItemRepository orderItemRepository;
     private final ProductRepository productRepository;
 
-    @Autowired
     public OrderService(CustomerRepository customerRepository,
             StoreRepository storeRepository,
             InventoryRepository inventoryRepository,
@@ -62,13 +60,11 @@ public class OrderService {
 
         // 2) Obtener tienda
         Long storeId = placeOrderRequest.getStoreId();
-        Store store = null;
-        if (storeId != null) {
-            store = storeRepository.findById(storeId);
+        if (storeId == null) {
+            throw new IllegalArgumentException("storeId is required in placeOrderRequest");
         }
-        if (store == null) {
-            throw new RuntimeException("Store not found with id: " + storeId);
-        }
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new RuntimeException("Store not found with id: " + storeId));
 
         // 3) Crear OrderDetails
         OrderDetails order = new OrderDetails();

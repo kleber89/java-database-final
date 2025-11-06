@@ -12,9 +12,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     // Find a customer by email
     Customer findByEmail(String email);
 
-    // Convenience method (note: JpaRepository already provides findById returning
-    // Optional<Customer>)
-    Customer findById(Long id);
+    // JpaRepository already provides findById returning Optional<Customer>
 
     // Example additional query: find by name
     List<Customer> findByName(String name);
